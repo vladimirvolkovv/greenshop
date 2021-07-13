@@ -50,7 +50,7 @@ const ProductListScreen = ({ history }) => {
         <Col>
           <h1>Товары</h1>
         </Col>
-        <Col className='text-right'>
+        <Col className='text-end'>
           <Button className='my-3' onClick={createProductHandler}>
             <i className='fas fa-plus'></i> Добавить товар
           </Button>

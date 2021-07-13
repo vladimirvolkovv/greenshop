@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 import Rating from './Rating';
 
 const Product = ({ product }) => {
@@ -10,7 +11,7 @@ const Product = ({ product }) => {
         <Card.Img src={product.image} variant='top' />
       </Link>
       <Card.Body>
-        <Link to={`/product/${product._id}`}>
+        <Link className='text-decoration-none' to={`/product/${product._id}`}>
           <Card.Title as='div'>
             <strong>{product.name}</strong>
           </Card.Title>

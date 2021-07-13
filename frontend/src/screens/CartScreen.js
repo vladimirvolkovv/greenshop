@@ -43,12 +43,20 @@ const CartScreen = ({ match, location, history }) => {
                   <Col md={2}>
                     <Image src={item.image} alt={item.name} fluid rounded />
                   </Col>
-                  <Col md={3}>
-                    <Link to={`/product/${item.product}`}>{item.name}</Link>
+                  <Col className='m-auto' md={3}>
+                    <Link className='text-decoration-none' to={`/product/${item.product}`}>
+                      {item.name}
+                    </Link>
                   </Col>
-                  <Col md={2}>{item.price} руб.</Col>
-                  <Col md={2}>
-                    <Form.Control as='select' value={item.qty} onChange={(e) => dispatch(addToCart(item.product, +e.target.value))}>
+                  <Col className='m-auto' md={2}>
+                    {item.price} руб.
+                  </Col>
+                  <Col md={2} className='m-auto'>
+                    <Form.Control
+                      as='select'
+                      value={item.qty}
+                      onChange={(e) => dispatch(addToCart(item.product, +e.target.value))}
+                    >
                       {[...Array(item.countInStock).keys()].map((x) => (
                         <option key={x + 1} value={x + 1}>
                           {x + 1}
@@ -56,7 +64,7 @@ const CartScreen = ({ match, location, history }) => {
                       ))}
                     </Form.Control>
                   </Col>
-                  <Col md={2}>
+                  <Col md={2} className='m-auto'>
                     <Button type='button' variant='primary' onClick={() => removeFromCartHandler(item.product)}>
                       <i className='fas fa-trash'></i>
                     </Button>
