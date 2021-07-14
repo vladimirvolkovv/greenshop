@@ -1,8 +1,10 @@
 import React from 'react';
+import { Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Navbar, Nav, Container, NavDropdown, Row, Col } from 'react-bootstrap';
 import { logout } from '../actions/userActions';
+import SearchBox from './SearchBox';
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -16,12 +18,13 @@ const Header = () => {
   return (
     <header>
       <Navbar bg='primary' variant='dark' collapseOnSelect>
-        <Container className='d-flex align-items-center'>
+        <Container className='d-flex align-items-center flex-row'>
           <div>
             <LinkContainer to='/'>
               <Navbar.Brand>GREENBOX Shop</Navbar.Brand>
             </LinkContainer>
           </div>
+          <Route render={({ history }) => <SearchBox history={history} />} />
           <div>
             <Navbar.Toggle aria-controls='basic-navbar-nav' />
             <Navbar.Collapse id='basic-navbar-nav'>

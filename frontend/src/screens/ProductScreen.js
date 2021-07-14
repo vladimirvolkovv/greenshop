@@ -167,7 +167,7 @@ const ProductScreen = ({ history, match }) => {
                           onChange={(e) => setComment(e.target.value)}
                         ></Form.Control>
                       </Form.Group>
-                      <Button type='submit' variant='primary'>
+                      <Button type='submit' variant='primary' className='mt-2'>
                         Отправить
                       </Button>
                     </Form>
