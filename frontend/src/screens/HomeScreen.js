@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+
 import { useDispatch, useSelector } from 'react-redux';
 import Product from '../components/Product';
 import { Row, Col } from 'react-bootstrap';
@@ -6,6 +7,7 @@ import { listProducts } from '../actions/productActions';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import Paginate from '../components/Paginate';
+import Meta from '../components/Meta';
 
 const HomeScreen = ({ match }) => {
   const keyword = match.params.keyword;
@@ -23,6 +25,7 @@ const HomeScreen = ({ match }) => {
 
   return (
     <>
+      <Meta />
       <h1>Новинки</h1>
       {loading ? (
         <Loader />
