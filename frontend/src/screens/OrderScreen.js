@@ -1,18 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
-import { PayPalButton } from 'react-paypal-button-v2';
 import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-import { getOrderDetails, payOrder, deliverOrder } from '../actions/orderActions';
+import { getOrderDetails, deliverOrder } from '../actions/orderActions';
 import { ORDER_PAY_RESET, ORDER_DELIVER_RESET } from '../constants/orderConstants';
 
 const OrderScreen = ({ match, history }) => {
   const orderId = match.params.id;
-
-  const [sdkReady, setSdkReady] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -23,10 +19,10 @@ const OrderScreen = ({ match, history }) => {
   const { userInfo } = userLogin;
 
   const orderPay = useSelector((state) => state.orderPay);
-  const { loading: loadingPay, success: successPay } = orderPay;
+  const { success: successPay } = orderPay;
 
   const orderDeliver = useSelector((state) => state.orderDeliver);
-  const { loading: loadingDeliver, success: successDeliver } = orderDeliver;
+  const { success: successDeliver } = orderDeliver;
 
   if (!loading) {
     order.itemsPrice = order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0).toFixed(2);
@@ -37,35 +33,12 @@ const OrderScreen = ({ match, history }) => {
       history.push('/login');
     }
 
-    const addPayPalScript = async () => {
-      const { data: clientId } = await axios.get('/api/config/paypal');
-      const script = document.createElement('script');
-      script.type = 'text/javascript';
-      script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
-      script.async = true;
-      script.onload = () => {
-        setSdkReady(true);
-      };
-      document.body.appendChild(script);
-    };
-
     if (!order || successPay || successDeliver) {
       dispatch({ type: ORDER_PAY_RESET });
       dispatch({ type: ORDER_DELIVER_RESET });
       dispatch(getOrderDetails(orderId));
-    } else if (!order.isPaid) {
-      if (!window.paypal) {
-        addPayPalScript();
-      } else {
-        setSdkReady(true);
-      }
     }
-  }, [dispatch, order, orderId, successPay, successDeliver]);
-
-  const successPaymentHandler = (paymentResult) => {
-    console.log(paymentResult);
-    dispatch(payOrder(orderId, paymentResult));
-  };
+  }, [dispatch, order, orderId, successPay, successDeliver, history, userInfo]);
 
   const deliverHandler = () => {
     dispatch(deliverOrder(order));
@@ -128,10 +101,12 @@ const OrderScreen = ({ match, history }) => {
                               <Image src={item.image} alt={item.name} fluid rounded></Image>
                             </Col>
                             <Col>
-                              <Link to={`/product/${item.product}`}>{item.name}</Link>
+                              <Link className='text-decoration-none' to={`/product/${item.product}`}>
+                                {item.name}
+                              </Link>
                             </Col>
                             <Col md={4}>
-                              {item.qty} x {item.price} руб. = {item.qty * item.price} руб.
+                              {item.qty} x {item.price} ₽ = {item.qty * item.price} ₽
                             </Col>
                           </Row>
                         </ListGroup.Item>
@@ -150,29 +125,29 @@ const OrderScreen = ({ match, history }) => {
                   <ListGroup.Item>
                     <Row>
                       <Col>Стоимость товаров</Col>
-                      <Col>{order.itemsPrice}</Col>
+                      <Col>{order.itemsPrice} ₽</Col>
                     </Row>
                   </ListGroup.Item>
                   <ListGroup.Item>
                     <Row>
                       <Col>Доставка</Col>
-                      <Col>{order.shippingPrice}</Col>
+                      <Col>{order.shippingPrice.toFixed(2)} ₽</Col>
                     </Row>
                   </ListGroup.Item>
                   <ListGroup.Item>
                     <Row>
                       <Col>Всего</Col>
-                      <Col>{order.totalPrice}</Col>
+                      <Col>{order.totalPrice.toFixed(2)} ₽</Col>
                     </Row>
                   </ListGroup.Item>
                   {!order.isPaid && (
                     <ListGroup.Item>
                       {loading && <Loader />}
-                      {!sdkReady ? (
+                      {/* {!sdkReady ? (
                         <Loader />
                       ) : (
                         <PayPalButton currency='USD' amount={order.totalPrice} onSuccess={successPaymentHandler} />
-                      )}
+                      )} */}
                     </ListGroup.Item>
                   )}
                   {userInfo && userInfo.isAdmin && !order.isDelivered && (

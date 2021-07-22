@@ -13,7 +13,7 @@ const PaymentScreen = ({ history }) => {
     history.push('/shipping');
   }
 
-  const [paymentMethod, setPaymentMethod] = useState('PayPal');
+  const [paymentMethod, setPaymentMethod] = useState('Наличные или карта');
 
   const dispatch = useDispatch();
 
@@ -32,7 +32,7 @@ const PaymentScreen = ({ history }) => {
           <Form.Label as='legend'>Выберите способ оплаты</Form.Label>
 
           <Col>
-            <Form.Check
+            {/* <Form.Check
               type='radio'
               label='Карта'
               id='PayPal'
@@ -40,13 +40,13 @@ const PaymentScreen = ({ history }) => {
               value='PayPal'
               checked
               onChange={(e) => setPaymentMethod(e.target.value)}
-            ></Form.Check>
+            ></Form.Check> */}
             <Form.Check
               type='radio'
-              label='Наличные'
+              label='Наличные или карта при получении'
               id='Cash'
               name='paymentMethod'
-              value='Cash'
+              value='Наличные или карта'
               onChange={(e) => setPaymentMethod(e.target.value)}
             ></Form.Check>
           </Col>

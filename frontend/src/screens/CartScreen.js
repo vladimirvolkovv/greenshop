@@ -49,7 +49,7 @@ const CartScreen = ({ match, location, history }) => {
                     </Link>
                   </Col>
                   <Col className='m-auto' md={2}>
-                    {item.price} руб.
+                    {item.price} ₽
                   </Col>
                   <Col md={2} className='m-auto'>
                     <Form.Control
@@ -80,7 +80,7 @@ const CartScreen = ({ match, location, history }) => {
           <ListGroup variant='flush'>
             <ListGroup.Item>
               <h2>Всего: {cartItems.reduce((acc, item) => acc + item.qty, 0)} товаров</h2>
-              На сумму: {cartItems.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)} руб.
+              На сумму: {cartItems.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)} ₽
             </ListGroup.Item>
             <ListGroup.Item>
               <Button type='button' className='btn-block' disabled={cartItems.length === 0} onClick={checkoutHandler}>

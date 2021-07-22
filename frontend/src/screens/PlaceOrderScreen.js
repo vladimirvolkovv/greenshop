@@ -15,7 +15,7 @@ const PlaceOrderScreen = ({ history }) => {
 
   cart.shippingPrice = cart.itemsPrice > 3000 ? 0 : 800;
 
-  cart.totalPrice = Number(cart.itemsPrice + cart.shippingPrice).toFixed(2);
+  cart.totalPrice = Number(Number(cart.itemsPrice) + Number(cart.shippingPrice)).toFixed(2);
 
   cart.taxPrice = +0;
 
@@ -77,7 +77,7 @@ const PlaceOrderScreen = ({ history }) => {
                           <Link to={`/product/${item.product}`}>{item.name}</Link>
                         </Col>
                         <Col md={4}>
-                          {item.qty} x {item.price} руб. = {item.qty * item.price} руб.
+                          {item.qty} x {item.price} ₽ = {item.qty * item.price} ₽
                         </Col>
                       </Row>
                     </ListGroup.Item>

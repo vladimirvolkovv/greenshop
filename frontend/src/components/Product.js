@@ -1,10 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
 import Rating from './Rating';
 
 const Product = ({ product }) => {
+  function checkRatingDec(number, titles) {
+    const cases = [2, 0, 1, 1, 1, 2];
+    return titles[number % 100 > 4 && number % 100 < 20 ? 2 : cases[number % 10 < 5 ? number % 10 : 5]];
+  }
+
   return (
     <Card className='my-3 p-3 rounded'>
       <Link to={`/product/${product._id}`}>
@@ -17,9 +21,12 @@ const Product = ({ product }) => {
           </Card.Title>
         </Link>
         <Card.Text as='div'>
-          <Rating value={product.rating} text={`${product.numReviews} отзывов`} />
+          <Rating
+            value={product.rating}
+            text={`${product.numReviews} ${checkRatingDec(product.numReviews, ['отзыв', 'отзыва', 'отзывов'])}`}
+          />
         </Card.Text>
-        <Card.Text as='h3'>{product.price} руб.</Card.Text>
+        <Card.Text as='h3'>{product.price} ₽</Card.Text>
       </Card.Body>
     </Card>
   );

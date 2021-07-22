@@ -7,7 +7,7 @@ import { listProductsDetails, createProductReview } from '../actions/productActi
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import { addToCart } from '../actions/cartActions';
-import { PRODUCT_CREATE_REVIEW_RESET, PRODUCT_CREATE_REVIEW_SUCCESS } from '../constants/productConstants';
+import { PRODUCT_CREATE_REVIEW_SUCCESS } from '../constants/productConstants';
 
 const ProductScreen = ({ history, match }) => {
   const [qty, setQty] = useState(1);
@@ -74,7 +74,7 @@ const ProductScreen = ({ history, match }) => {
                 <ListGroup.Item>
                   <Rating value={product.rating} text={`${product.numReviews} отзывов`} />
                 </ListGroup.Item>
-                <ListGroup.Item>Цена: {product.price} руб.</ListGroup.Item>
+                <ListGroup.Item>Цена: {product.price} ₽</ListGroup.Item>
                 <ListGroup.Item>Описание: {product.description}</ListGroup.Item>
               </ListGroup>
             </Col>
@@ -85,7 +85,7 @@ const ProductScreen = ({ history, match }) => {
                     <Row>
                       <Col>Цена:</Col>
                       <Col>
-                        <strong>{product.price} руб.</strong>
+                        <strong>{product.price} ₽</strong>
                       </Col>
                     </Row>
                   </ListGroup.Item>
@@ -101,8 +101,8 @@ const ProductScreen = ({ history, match }) => {
                   {product.countInStock > 0 && (
                     <ListGroup.Item>
                       <Row>
-                        <Col>Количество</Col>
-                        <Col>
+                        <Col className='m-auto'>Количество:</Col>
+                        <Col className='m-auto'>
                           <Form.Control as='select' value={qty} onChange={(e) => setQty(e.target.value)}>
                             {[...Array(product.countInStock).keys()].map((x) => (
                               <option key={x + 1} value={x + 1}>
@@ -150,7 +150,7 @@ const ProductScreen = ({ history, match }) => {
                       <Form.Group controlId='rating'>
                         <Form.Label>Рейтинг</Form.Label>
                         <Form.Control as='select' value={rating} onChange={(e) => setRating(e.target.value)}>
-                          <option value=''>Выберите один вариант</option>
+                          <option value=''>Оцените товар</option>
                           <option value='1'>1 - Плохо</option>
                           <option value='2'>2 - Нормально</option>
                           <option value='3'>3 - Хорошо</option>
